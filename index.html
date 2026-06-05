@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibePulse - Feel the Connection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div id="pulse-overlay"></div>
+    <header>
+        <div class="logo">
+            <h1 class="glow-text">Vibe<span>Pulse</span></h1>
+            <p>Connect with your vibe</p>
+        </div>
+        <div class="status-panel">
+            <div class="online-indicator">
+                <span class="pulse-dot"></span>
+                <span id="count-value">0</span> connected
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="video-grid">
+            <div class="video-card remote">
+                <video id="remote-video" autoplay playsinline></video>
+                <div class="video-label">Stranger</div>
+                <div class="pulse-ring"></div>
+            </div>
+            <div class="video-card local">
+                <video id="local-video" autoplay playsinline muted></video>
+                <div class="video-label">You</div>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div id="chat-box">
+                <div class="system-msg">Initialize your connection to start pulsing...</div>
+            </div>
+            <div class="controls">
+                <div class="input-wrap">
+                    <input type="text" id="chat-input" placeholder="Say something...">
+                    <button id="send-btn">➤</button>
+                </div>
+                <div class="action-btns">
+                    <button id="skip-btn" class="btn-secondary">New Vibe</button>
+                    <button id="pulse-btn" class="btn-pulse">Send Pulse</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

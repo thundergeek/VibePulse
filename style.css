@@ -1,0 +1,246 @@
+:root {
+    --bg-dark: #0a0a0c;
+    --card-bg: #141418;
+    --neon-blue: #00f2ff;
+    --neon-pink: #ff00f2;
+    --text-main: #e0e0e0;
+    --text-dim: #888;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#pulse-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    background: radial-gradient(circle, transparent 40%, var(--neon-pink) 150%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.pulse-active #pulse-overlay {
+    animation: screenPulse 0.8s ease-out;
+}
+
+@keyframes screenPulse {
+    0% { opacity: 0; }
+    30% { opacity: 0.4; }
+    100% { opacity: 0; }
+}
+
+header {
+    padding: 15px 30px;
+    background: var(--card-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.glow-text {
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: white;
+}
+
+.glow-text span {
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+.status-panel {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.online-indicator {
+    background: rgba(255,255,255,0.05);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #39ff14;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #39ff14;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+main {
+    flex: 1;
+    display: flex;
+}
+
+.video-grid {
+    flex: 2;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+    background: #000;
+}
+
+.video-card {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #222;
+}
+
+.video-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-label {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(0,0,0,0.6);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sidebar {
+    flex: 1;
+    background: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #222;
+}
+
+#chat-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.system-msg {
+    color: var(--neon-blue);
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0, 242, 255, 0.05);
+    border-radius: 8px;
+}
+
+.msg {
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.msg.you { color: var(--neon-blue); font-weight: bold; }
+.msg.stranger { color: var(--neon-pink); font-weight: bold; }
+
+.controls {
+    padding: 20px;
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-wrap {
+    display: flex;
+    gap: 10px;
+}
+
+#chat-input {
+    flex: 1;
+    background: #000;
+    border: 1px solid #333;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+#chat-input:focus { border-color: var(--neon-blue); }
+
+#send-btn {
+    background: var(--neon-blue);
+    color: black;
+    border: none;
+    width: 45px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.action-btns {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.btn-secondary {
+    background: #333;
+    color: white;
+}
+
+.btn-pulse {
+    background: var(--neon-pink);
+    color: white;
+    box-shadow: 0 0 15px rgba(255,0,242,0.3);
+}
+
+.btn-pulse:active { transform: scale(0.95); }
+
+.video-card video.is-bot {
+    background: radial-gradient(circle, var(--neon-blue) 0%, transparent 70%);
+    animation: botVibe 3s infinite alternate;
+}
+
+@keyframes botVibe {
+    0% { transform: scale(0.95); opacity: 0.6; }
+    100% { transform: scale(1.05); opacity: 0.9; }
+}
