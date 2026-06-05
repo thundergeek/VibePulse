@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io("https://entitled-wallace-forget-flights.trycloudflare.com");
 const localVideo = document.getElementById('local-video');
 const remoteVideo = document.getElementById('remote-video');
 const chatBox = document.getElementById('chat-box');
