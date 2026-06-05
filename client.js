@@ -21,19 +21,52 @@ socket.on('onlineCount', (count) => {
 const startBtn = document.getElementById('start-btn');
 const startOverlay = document.getElementById('start-overlay');
 
-startBtn.onclick = () => {
+startBtn.onclick = async () => {
     startOverlay.style.display = 'none';
+    
+    // Explicitly request Notification permission
+    if ("Notification" in window) {
+        try {
+            const permission = await Notification.requestPermission();
+            console.log("Notification permission:", permission);
+        } catch (e) {
+            console.error("Notification error:", e);
+        }
+    }
+    
     init();
 };
 
 async function init() {
+    console.log("Starting media initialization...");
     try {
-        const constraints = { video: { width: 640, height: 480 }, audio: true };
+        const constraints = { 
+            video: { facingMode: "user" }, 
+            audio: true 
+        };
+        
+        console.log("Requesting getUserMedia...");
         localStream = await navigator.mediaDevices.getUserMedia(constraints);
+        console.log("Media stream acquired successfully.");
+        
         localVideo.srcObject = localStream;
+        localVideo.play().catch(e => console.error("Video play error:", e));
+        
         socket.emit('findPair');
     } catch (err) {
-        addSystemMsg('Media access denied. Please use HTTPS and allow camera permissions.');
+        console.error('Detailed Media Error:', err);
+        let errorMsg = `Error: ${err.name} - ${err.message}`;
+        
+        if (location.protocol !== 'https:') {
+            errorMsg = "SECURITY ERROR: Camera REQUIRES https://. Please ensure you are using the GitHub Pages link.";
+        } else if (err.name === 'NotAllowedError') {
+            errorMsg = "PERMISSION DENIED: You blocked the camera. Please reset permissions in your browser settings.";
+        } else if (err.name === 'NotFoundError') {
+            errorMsg = "HARDWARE ERROR: No camera or microphone found on this device.";
+        }
+        
+        addSystemMsg(errorMsg);
+        alert(errorMsg); // Direct alert for mobile visibility
     }
 }
 
