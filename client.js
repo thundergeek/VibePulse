@@ -18,6 +18,14 @@ socket.on('onlineCount', (count) => {
     if (onlineCountDisplay) onlineCountDisplay.innerText = count.toLocaleString();
 });
 
+const startBtn = document.getElementById('start-btn');
+const startOverlay = document.getElementById('start-overlay');
+
+startBtn.onclick = () => {
+    startOverlay.style.display = 'none';
+    init();
+};
+
 async function init() {
     try {
         const constraints = { video: { width: 640, height: 480 }, audio: true };
@@ -131,5 +139,3 @@ skipBtn.onclick = () => {
     socket.emit('findPair');
     addSystemMsg('Searching for a new connection...');
 };
-
-init();
